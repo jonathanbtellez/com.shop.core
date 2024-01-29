@@ -78,6 +78,4 @@ public class ClientRestController {
 
         throw new ResourceNotFoundException("Client " + username + " not found");
     }
-
-
 }
