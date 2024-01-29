@@ -1,13 +1,17 @@
 package com.shop.core.controllers;
 
 import com.shop.core.models.Client;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@RequestMapping("/clients")
 public class ClientRestController {
     private List<Client> clients = new ArrayList<>(Arrays.asList(
             new Client("pecortes","pedro","12345678"),
@@ -15,24 +19,35 @@ public class ClientRestController {
             new Client("wendylo","wendy","12345678")
     ));
 
-    @GetMapping("/clients")
-    public List<Client> getClients() {
-        return clients;
+    @GetMapping
+    public ResponseEntity<?> getClients() {
+        return ResponseEntity.ok(clients);
     }
 
-    @GetMapping("/clients/{username}")
-    public Client getClientByUsername(@PathVariable String username) {
-        return clients.stream().filter(client -> client.getUsername().equalsIgnoreCase(username)).findFirst().orElseThrow();
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getClientByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(clients.stream()
+                                        .filter(client -> client.getUsername().equalsIgnoreCase(username))
+                                        .findFirst()
+                                        .orElseThrow());
     }
 
-    @PostMapping("/clients")
-    public Client createCliente(@RequestBody Client client) {
+    @PostMapping
+    public ResponseEntity<?> createCliente(@RequestBody Client client) {
+
+        //send the url of endpoint
+        URI location = ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/{username}")
+                        .buildAndExpand(client.getUsername())
+                        .toUri();
+
         clients.add(client);
-        return client;
+        return ResponseEntity.created(location).body(client);
     }
 
-    @PutMapping("/clients")
-    public Client updateCliente(@RequestBody Client client) {
+    @PutMapping
+    public ResponseEntity<?> updateCliente(@RequestBody Client client) {
         Client clientToUpdate = clients
                                     .stream()
                                     .filter(clientDB->clientDB.getUsername().equalsIgnoreCase(client.getUsername()))
@@ -41,15 +56,21 @@ public class ClientRestController {
 
         clientToUpdate.setPassword(client.getPassword());
         clientToUpdate.setName(client.getName());
-        return clientToUpdate;
+
+        return ResponseEntity.ok(clientToUpdate);
     }
 
-    @DeleteMapping("/clients/{username}")
-    public void deleteCliente(@PathVariable String username) {
+    @DeleteMapping("/{username}")
+    public ResponseEntity<?> deleteCliente(@PathVariable String username) {
         Client clientToDelete = clients
                                     .stream()
                                     .filter(clientDB -> clientDB.getUsername().equalsIgnoreCase(username)).findFirst()
                                     .orElseThrow();
+
         clients.remove(clientToDelete);
+
+        return ResponseEntity.noContent().build();
     }
+
+    //page 95
 }
