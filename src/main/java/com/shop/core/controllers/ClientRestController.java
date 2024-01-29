@@ -78,4 +78,6 @@ public class ClientRestController {
 
         return ResponseEntity.noContent().build();
     }
+
+    // services implementation
 }
