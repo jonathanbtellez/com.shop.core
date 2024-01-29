@@ -1,5 +1,7 @@
 package com.shop.core.controllers;
 
+import com.shop.core.exceptions.BackRequestException;
+import com.shop.core.exceptions.ResourceNotFoundException;
 import com.shop.core.models.Client;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +28,15 @@ public class ClientRestController {
 
     @GetMapping("/{username}")
     public ResponseEntity<?> getClientByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(clients.stream()
-                                        .filter(client -> client.getUsername().equalsIgnoreCase(username))
-                                        .findFirst()
-                                        .orElseThrow());
+
+        if(username.length() < 3){
+            throw new BackRequestException("The username parameter must be at least 3 characters.");
+        }
+        return clients.stream()
+                .filter(client-> client.getUsername().equalsIgnoreCase(username))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElseThrow(()-> new ResourceNotFoundException("Client " + username + " not found"));
     }
 
     @PostMapping
@@ -69,8 +76,8 @@ public class ClientRestController {
 
         clients.remove(clientToDelete);
 
-        return ResponseEntity.noContent().build();
+        throw new ResourceNotFoundException("Client " + username + " not found");
     }
 
-    //page 95
+
 }
