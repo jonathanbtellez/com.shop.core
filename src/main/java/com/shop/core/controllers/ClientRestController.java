@@ -76,6 +76,6 @@ public class ClientRestController {
 
         clients.remove(clientToDelete);
 
-        throw new ResourceNotFoundException("Client " + username + " not found");
+        return ResponseEntity.noContent().build();
     }
 }
