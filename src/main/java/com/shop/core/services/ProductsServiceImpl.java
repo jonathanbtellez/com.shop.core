@@ -2,12 +2,14 @@ package com.shop.core.services;
 
 import com.shop.core.models.Product;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Lazy
 @Service("MEMORY")
 @ConditionalOnProperty(
         value="products.strategy",
@@ -19,6 +21,10 @@ public class ProductsServiceImpl implements IProductService{
             new Product(2, "Product 2", 20.0, 20),
             new Product(3, "Product 3", 30.0, 30)
     ));
+
+    public ProductsServiceImpl() {
+        System.out.println("Se esta construyendo un objeto de la clase ProductServiceImpl");
+    }
 
     public List<Product> getProducts() {
         return products;
