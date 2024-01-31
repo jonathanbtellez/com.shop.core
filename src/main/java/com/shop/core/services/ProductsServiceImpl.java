@@ -1,13 +1,18 @@
 package com.shop.core.services;
 
 import com.shop.core.models.Product;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Service
+@Service("MEMORY")
+@ConditionalOnProperty(
+        value="products.strategy",
+        havingValue = "IN_MEMORY"
+)
 public class ProductsServiceImpl implements IProductService{
     private List<Product> products = new ArrayList<>(Arrays.asList(
             new Product(1, "Product 1", 10.0, 10),
