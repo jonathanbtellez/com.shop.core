@@ -9,7 +9,7 @@ public class ConfigurationParameters {
     private  String name;
     private  String language;
     private  String country;
-    private  String auth;
+    private  String author;
 
     public String getName() {
         return name;
@@ -35,11 +35,21 @@ public class ConfigurationParameters {
         this.country = country;
     }
 
-    public String getAuth() {
-        return auth;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuth(String auth) {
-        this.auth = auth;
+    public void setauthor(String author) {
+        this.author = author;
+    }
+
+    @Override
+    public String toString(){
+        return "ConfigurationParameters{" +
+                "name = "+ name +
+                ", country = "+ country +
+                ", author = "+ author +
+                ", language ="+ language +
+                "}";
     }
 }

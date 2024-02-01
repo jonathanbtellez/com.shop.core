@@ -1,9 +1,8 @@
 package com.shop.core.controllers;
 
+import com.shop.core.configurations.ConfigurationParameters;
 import com.shop.core.services.IProductService;
-import com.shop.core.services.ProductsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +18,13 @@ public class ProductsRestController {
     //@Qualifier("MEMORY")
     private IProductService productsService;
 
+    @Autowired
+    private ConfigurationParameters configurationParameters;
+
     @GetMapping
     public ResponseEntity<?> getProducts(){
+        System.out.println("params: "+ configurationParameters.toString());
+
         return  ResponseEntity.ok(productsService.getProducts());
     }
     //page 150
