@@ -1,6 +1,7 @@
 package com.shop.core.services;
 
 import com.shop.core.models.Product;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Lazy
+//Handle logs lombok
+@Slf4j
 @Service("MEMORY")
 @ConditionalOnProperty(
         value="products.strategy",
@@ -23,7 +26,8 @@ public class ProductsServiceImpl implements IProductService{
     ));
 
     public ProductsServiceImpl() {
-        System.out.println("Se esta construyendo un objeto de la clase ProductServiceImpl");
+        //we can use log thanks to Slf4j annotation
+        log.info("Se esta construyendo un objeto de la clase ProductServiceImpl");
     }
 
     public List<Product> getProducts() {
