@@ -36,9 +36,9 @@ public class ProductsRestController {
     @GetMapping("/fake-products")
     public ResponseEntity<?> fakeProductsAPI(){
          List<Product> products = new ArrayList<>(Arrays.asList(
-                new Product(1, "Product FAKE 1", 10.0, 10),
-                new Product(2, "Product FAKE 2", 20.0, 20),
-                new Product(3, "Product FAKE 3", 30.0, 30)
+                new Product(1L, "Product FAKE 1", 10.0, 10),
+                new Product(2L, "Product FAKE 2", 20.0, 20),
+                new Product(3L, "Product FAKE 3", 30.0, 30)
         ));
 
          return ResponseEntity.ok(products);
