@@ -1,6 +1,7 @@
 package com.shop.core.services;
 
 import com.shop.core.models.Product;
+import com.shop.core.persistence.entities.ProductEntity;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -29,5 +30,10 @@ public class ProductServicesAPIImpl implements IProductService{
         List<Product> products = response.getBody();
 
         return products;
+    }
+
+    @Override
+    public ProductEntity saveProduct(Product product) {
+        return null;
     }
 }
