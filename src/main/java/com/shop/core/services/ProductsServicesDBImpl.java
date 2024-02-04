@@ -1,5 +1,6 @@
 package com.shop.core.services;
 
+import com.shop.core.exceptions.ResourceNotFoundException;
 import com.shop.core.models.Product;
 import com.shop.core.persistence.entities.ProductEntity;
 import com.shop.core.persistence.repositories.ProductsRepository;
@@ -9,7 +10,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,12 +59,92 @@ public class ProductsServicesDBImpl implements IProductService{
     }
 
     @Override
-    public ProductEntity saveProduct(Product product) {
+    public Product getById(Long id) {
+        return productsRepository
+                .findById(id).map(productEntity -> {
+                    Product product = new Product();
+                    product.setId(productEntity.getId());
+                    product.setName(productEntity.getName());
+                    product.setPrice(productEntity.getPrice());
+                    product.setStock(productEntity.getStock());
+                    return product;
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Product "+" with id " + id + " does not exist"));
+    }
+
+    @Override
+    public Product saveProduct(Product product) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(product.getName());
         productEntity.setPrice(product.getPrice());
         productEntity.setStock(product.getStock());
 
-        return productsRepository.save(productEntity);
+        ProductEntity productEntitySaved = productsRepository.save(productEntity);
+
+        product.setId(productEntitySaved.getId());
+
+        return product;
+    }
+
+    @Override
+    public Product update(Product product) {
+        ProductEntity productEntity =
+                productsRepository.findById(product
+                        .getId())
+                        .orElseThrow(()-> new ResourceNotFoundException("Product "+" with id " + product.getId() + " does not exist"));
+
+            productEntity.setName(product.getName());
+            productEntity.setPrice(product.getPrice());
+            productEntity.setStock(product.getStock());
+            productsRepository.save(productEntity);
+
+            return product;
+    }
+
+    @Override
+    public void delete(Long id) {
+        productsRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Product> getByPriceLessThan(Double price) {
+        return productsRepository.findByPriceLessThan(price)
+                .stream()
+                .map(productEntity -> {
+                    Product product = new Product();
+                    product.setId(productEntity.getId());
+                    product.setName(productEntity.getName());
+                    product.setPrice(productEntity.getPrice());
+                    product.setStock(productEntity.getStock());
+                    return product;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Product> getByNameLike(String name) {
+        return productsRepository.findByNameLike(name)
+                .stream()
+                .map(productEntity -> {
+                    Product product = new Product();
+                    product.setId(productEntity.getId());
+                    product.setName(productEntity.getName());
+                    product.setPrice(productEntity.getPrice());
+                    product.setStock(productEntity.getStock());
+                    return product;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Product> getByPriceGreaterThanAndStockLessThan(Double price, Integer stock) {
+        return productsRepository.findByPriceGreaterThanAndStockLessThan(price, stock)
+                .stream()
+                .map(productEntity -> {
+                    Product product = new Product();
+                    product.setId(productEntity.getId());
+                    product.setName(productEntity.getName());
+                    product.setPrice(productEntity.getPrice());
+                    product.setStock(productEntity.getStock());
+                    return product;
+                }).collect(Collectors.toList());
     }
 }

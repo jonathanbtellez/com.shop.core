@@ -1,7 +1,6 @@
 package com.shop.core.services;
 
 import com.shop.core.models.Product;
-import com.shop.core.persistence.entities.ProductEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
@@ -34,8 +33,39 @@ public class ProductsServiceImpl implements IProductService{
     public List<Product> getProducts() {
         return products;
     }
+
     @Override
-    public ProductEntity saveProduct(Product product) {
+    public Product getById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Product saveProduct(Product product) {
+        return null;
+    }
+
+    @Override
+    public Product update(Product product) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+
+    }
+
+    @Override
+    public List<Product> getByPriceLessThan(Double price) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getByNameLike(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getByPriceGreaterThanAndStockLessThan(Double price, Integer stock) {
         return null;
     }
 

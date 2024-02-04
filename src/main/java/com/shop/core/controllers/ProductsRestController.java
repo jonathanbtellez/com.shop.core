@@ -34,6 +34,25 @@ public class ProductsRestController {
         return  ResponseEntity.ok(productsService.getProducts());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProduct(@PathVariable Long id){
+        return ResponseEntity.ok(productsService.getById(id));
+    }
+
+    @GetMapping("/price-less-than/{price}")
+    public ResponseEntity<?> getProductsByPriceLessThan(@PathVariable Double price){
+        return ResponseEntity.ok(productsService.getByPriceLessThan(price));
+    }
+
+    @GetMapping("/name-like/{name}")
+    public ResponseEntity<?> getProductByNameLike(@PathVariable String name){
+        return ResponseEntity.ok(productsService.getByNameLike(name));
+    }
+    @GetMapping("/search")
+    public ResponseEntity<?> getProductsByPriceGreaterThanAndStockLessThan(@RequestParam Double price, @RequestParam Integer stock){
+        return ResponseEntity.ok(productsService.getByPriceGreaterThanAndStockLessThan(price, stock));
+    }
+
     @GetMapping("/fake-products")
     public ResponseEntity<?> fakeProductsAPI(){
          List<Product> products = new ArrayList<>(Arrays.asList(
@@ -48,14 +67,25 @@ public class ProductsRestController {
 
     @PostMapping
     public ResponseEntity<?> saveProduct(@RequestBody Product product){
-        ProductEntity productEntity = productsService.saveProduct(product);
+        Product productSaved = productsService.saveProduct(product);
         URI location =
                 ServletUriComponentsBuilder
                         .fromCurrentRequest()
                         .path("/{id}")
-                        .buildAndExpand(productEntity.getId())
+                        .buildAndExpand(productSaved.getId())
                         .toUri();
 
-        return ResponseEntity.created(location).body(productEntity);
+        return ResponseEntity.created(location).body(productSaved);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateProduct(@RequestBody Product product){
+        return ResponseEntity.ok(productsService.update(product));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id){
+        productsService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

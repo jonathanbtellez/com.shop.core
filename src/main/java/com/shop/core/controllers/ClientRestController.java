@@ -1,6 +1,6 @@
 package com.shop.core.controllers;
 
-import com.shop.core.exceptions.BackRequestException;
+import com.shop.core.exceptions.BadRequestException;
 import com.shop.core.exceptions.ResourceNotFoundException;
 import com.shop.core.models.Client;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class ClientRestController {
     public ResponseEntity<?> getClientByUsername(@PathVariable String username) {
 
         if(username.length() < 3){
-            throw new BackRequestException("The username parameter must be at least 3 characters.");
+            throw new BadRequestException("The username parameter must be at least 3 characters.");
         }
         return clients.stream()
                 .filter(client-> client.getUsername().equalsIgnoreCase(username))
