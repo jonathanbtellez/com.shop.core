@@ -12,7 +12,7 @@ public interface IEmployeeServices {
     List<Employee> findByNameLike(String name);
     List<Employee> findByEmailLike(String email);
     List<Employee> findByPositionLike(String position);
-    public Employee saveProduct(Employee employee);
+    public Employee save(Employee employee);
     public Employee update(Employee employee);
     public void delete(Long id);
 }

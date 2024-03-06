@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Lazy
 //Handle logs lombok
 @Slf4j
-@Service("DB")
+@Service("product_DB")
 @ConditionalOnProperty(
         value="products.strategy",
         havingValue = "IN_DB"
