@@ -112,9 +112,7 @@ public class EmployeeServicesDBImpl implements IEmployeeServices{
         employeeEntity.setPosition(employee.getPosition());
 
         EmployeeEntity employeeEntitySaved = employeeRepository.save(employeeEntity);
-
-        employeeEntitySaved.setId(employeeEntitySaved.getId());
-
+        employee.setId(employeeEntitySaved.getId());
         return employee;
     }
 
@@ -125,10 +123,10 @@ public class EmployeeServicesDBImpl implements IEmployeeServices{
                                 .getId())
                         .orElseThrow(()-> new ResourceNotFoundException("Employee "+" with id " + employee.getId() + " does not exist"));
 
-        employee.setName(employeeEntity.getName());
-        employee.setEmail(employeeEntity.getEmail());
-        employee.setLastName(employeeEntity.getLastName());
-        employee.setPosition(employeeEntity.getPosition());
+        employeeEntity.setName(employee.getName());
+        employeeEntity.setEmail(employee.getEmail());
+        employeeEntity.setLastName(employee.getLastName());
+        employeeEntity.setPosition(employee.getPosition());
 
         employeeRepository.save(employeeEntity);
 
