@@ -63,6 +63,7 @@ public class EmployeeServicesDBImpl implements IEmployeeServices{
 
     @Override
     public List<Employee> findByNameLike(String name) {
+        System.out.println(name);
         return employeeRepository
                 .findByNameLike(name).stream().map(employeeEntity -> {
                     Employee employee = new Employee();
